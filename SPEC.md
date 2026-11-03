@@ -51,9 +51,12 @@ Use `unit`, `integration`, and `e2e` pytest markers. Run `.venv/bin/python check
 ### Work record
 
 - Issue: [RPS-001: Play a round](https://github.com/ms543-create/is218-rps-game/issues/1).
-- Pull request: [RPS-001: Play a round #2](https://github.com/ms543-create/is218-rps-game/pull/2).
-- CI: [Python checks for the feature implementation](https://github.com/ms543-create/is218-rps-game/actions/runs/41670998920). Confirm the latest PR commit's Python checks pass before merging.
+- Pull request: [RPS-001: Play a round #2](https://github.com/ms543-create/is218-rps-game/pull/2), merged; issue #1 closed as completed.
+- CI: [Successful Python checks on final PR commit 769d2e4](https://github.com/ms543-create/is218-rps-game/actions/runs/41671196268), verified before merging PR #2.
 - Implementation: [game.py](game.py) implements all nine outcomes for one independent round using the supplied interface and server.
 - Checks: Full `.venv/bin/python check.py` passed Black, Pylint, 23 non-browser tests, and 6 Chromium tests. [Rule and request tests](tests/test_game.py) cover all nine literal outcomes and a real Rock-versus-Paper submitted loss. [Browser round and replay](tests/e2e/test_round.py) checks Rock losing to Paper, then Scissors winning against Paper through real HTTP. [Supplied request tests](tests/test_shell.py) retain missing/unsupported-input rejection checks. Only the computer choice is fixed in the new integration/browser tests; the real rules run.
 - Review: Compared the diff and both new test files against this spec; `git diff --check` passed. No shared check settings or supplied assertions were weakened.
-- Personal browser review of completed rules: the student chose Scissors, the computer chose Scissors, and the site displayed a tie. Automated browser checks do not establish every aspect of usability or performance.
+- Test explanation: In [the nine-outcome unit test](tests/test_game.py), the literal case `("rock", "paper", "lose")` is checked by `assert determine_winner(player, computer) == expected`. The student explained that this catches a wrong matchup result, such as saying Rock beats Paper instead of losing, by comparing the actual result with the expected result for each combination.
+- Personal browser review of completed rules: the student chose Scissors, the computer chose Scissors, and the site displayed a tie. The student explained that identical moves tie because neither can beat the other.
+- Keyboard and replay observation: the student reported that Tab moves between choices and Enter submits the selected move. After a round, focus starts at the leftmost option and Tab moves right. The student confirmed submitting again with Enter displays both choices and a result for another round. Automated browser checks do not establish every aspect of usability or performance.
+- Help received: the local coding agent helped plan, implement, test, review, and document the feature, and helped with Python/Chromium setup and Git. The student supplied the matchup prediction, test explanation, browser observations, and approvals, and created and merged the PR in GitHub.
