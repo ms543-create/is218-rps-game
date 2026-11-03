@@ -27,7 +27,13 @@ Results are from the **player’s perspective**. `determine_winner(player, compu
 
 ### Agreed plan
 
-Before implementation, predict one matchup and explain it with your local coding agent. Discuss a short plan and checks. Once it makes sense, ask the agent to replace this paragraph with the agreed plan, preserving the expected results above. Continue in the same chat.
+- Implement `determine_winner(player, computer)` for all nine outcomes above, returning results from the player's perspective. Keep the supplied interface and server, with independent rounds and no score or saved history.
+- Predicted example: the player chooses Rock and the computer chooses Paper; return `lose` and display **Computer wins**, because Paper covers Rock. This valid losing round is a positive case.
+- Add nine explicit unit cases in `tests/test_game.py`, using literal expected results. Add a real request/result integration test that fixes only the computer choice and checks both moves and the result.
+- Reuse supplied missing/unsupported-input integration tests. Missing input or an unsupported move such as `lizard` must return HTTP 400 with a helpful explanation, without calling the rules.
+- Add a real Chromium round and replay in `tests/e2e/test_round.py`, using the supplied fixtures and real rules. Control only the computer choice and use Playwright waiting assertions.
+- Run the full `.venv/bin/python check.py`, fix failures without weakening checks, and review the diff against this spec. Show the Rock-versus-Paper test for student discussion before personal browser review.
+- Record actual checks, code/test links, and the student's browser observation in the work record. Preserve the issue link and add real PR/CI links when available. GitHub actions and merging require student approval; merging also requires passing final PR checks.
 
 ### Checks
 
@@ -44,7 +50,9 @@ Use `unit`, `integration`, and `e2e` pytest markers. Run `.venv/bin/python check
 
 ### Work record
 
-- Issue: add your own issue URL.
+- Issue: [RPS-001: Play a round](https://github.com/ms543-create/is218-rps-game/issues/1).
 - Pull request / CI: add actual URLs when they exist.
-- Implementation: **Not implemented.** The shell is supplied; `game.py` is unfinished.
-- Checks: **Rules not verified.** Supplied request/browser tests cover the shell only. After implementation, record actual full-check results and your browser observations here; put detailed results in the PR. Passing formatting and analysis alone is not evidence of correct rules.
+- Implementation: [game.py](game.py) implements all nine outcomes for one independent round using the supplied interface and server.
+- Checks: Full `.venv/bin/python check.py` passed Black, Pylint, 23 non-browser tests, and 6 Chromium tests. [Rule and request tests](tests/test_game.py) cover all nine literal outcomes and a real Rock-versus-Paper submitted loss. [Browser round and replay](tests/e2e/test_round.py) checks Rock losing to Paper, then Scissors winning against Paper through real HTTP. [Supplied request tests](tests/test_shell.py) retain missing/unsupported-input rejection checks. Only the computer choice is fixed in the new integration/browser tests; the real rules run.
+- Review: Compared the diff and both new test files against this spec; `git diff --check` passed. No shared check settings or supplied assertions were weakened.
+- Personal browser review of completed rules: the student chose Scissors, the computer chose Scissors, and the site displayed a tie. Automated browser checks do not establish every aspect of usability or performance.
