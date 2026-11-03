@@ -51,7 +51,8 @@ Use `unit`, `integration`, and `e2e` pytest markers. Run `.venv/bin/python check
 ### Work record
 
 - Issue: [RPS-001: Play a round](https://github.com/ms543-create/is218-rps-game/issues/1).
-- Pull request / CI: add actual URLs when they exist.
+- Pull request: [RPS-001: Play a round #2](https://github.com/ms543-create/is218-rps-game/pull/2).
+- CI: [Python checks for the feature implementation](https://github.com/ms543-create/is218-rps-game/actions/runs/41670998920). Confirm the latest PR commit's Python checks pass before merging.
 - Implementation: [game.py](game.py) implements all nine outcomes for one independent round using the supplied interface and server.
 - Checks: Full `.venv/bin/python check.py` passed Black, Pylint, 23 non-browser tests, and 6 Chromium tests. [Rule and request tests](tests/test_game.py) cover all nine literal outcomes and a real Rock-versus-Paper submitted loss. [Browser round and replay](tests/e2e/test_round.py) checks Rock losing to Paper, then Scissors winning against Paper through real HTTP. [Supplied request tests](tests/test_shell.py) retain missing/unsupported-input rejection checks. Only the computer choice is fixed in the new integration/browser tests; the real rules run.
 - Review: Compared the diff and both new test files against this spec; `git diff --check` passed. No shared check settings or supplied assertions were weakened.
